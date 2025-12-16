@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { supabase } from './supabaseClient';
 
-// FIXED: Remove curly braces for default exports
+// Fixed imports: default exports, no curly braces, no .tsx extensions
 import AuthScreen from './components/AuthScreen';
 import BottomNav from './components/BottomNav';
 import Home from './pages/Home';
@@ -111,7 +111,7 @@ export default function App() {
         <div className="flex-1 overflow-hidden relative z-0">
           <Routes>
             <Route path="/sql-setup" element={<SqlSetup />} />
-            
+
             {session ? (
               <>
                 <Route path="/" element={<Home />} />
@@ -133,4 +133,5 @@ export default function App() {
     </Router>
   );
 }
+
 
