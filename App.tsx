@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { supabase } from './supabaseClient';
 
-// FIXED: Remove curly braces for default exports
+// Default imports for Vercel / Linux build
 import AuthScreen from './components/AuthScreen';
 import BottomNav from './components/BottomNav';
 import Home from './pages/Home';
@@ -20,7 +20,7 @@ export default function App() {
 
   useEffect(() => {
     checkSession();
-    
+
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
@@ -34,9 +34,7 @@ export default function App() {
     try {
       setConnectionError(null);
 
-      if (!navigator.onLine) {
-        throw new Error("You are offline.");
-      }
+      if (!navigator.onLine) throw new Error("You are offline.");
 
       const { data, error } = await supabase.auth.getSession();
 
@@ -54,12 +52,8 @@ export default function App() {
             await supabase.auth.signOut();
             setSession(null);
             alert("Your account has been banned.");
-          } else {
-            setSession(data.session);
-          }
-        } else {
-          setSession(null);
-        }
+          } else setSession(data.session);
+        } else setSession(null);
       }
     } catch (err: any) {
       console.error("Session check critical failure:", err);
@@ -72,9 +66,7 @@ export default function App() {
   const handleRetry = () => {
     setLoading(true);
     setConnectionError(null);
-    setTimeout(() => {
-      checkSession();
-    }, 1000);
+    setTimeout(() => checkSession(), 1000);
   };
 
   if (loading) {
@@ -92,10 +84,12 @@ export default function App() {
         <h2 className="text-xl font-bold mb-2">Connection Error</h2>
         <p className="text-gray-400 mb-6 text-sm break-words max-w-xs">
           {connectionError}
-          <br/>
-          <span className="text-xs text-gray-500 mt-2 block">Please check your internet connection.</span>
+          <br />
+          <span className="text-xs text-gray-500 mt-2 block">
+            Please check your internet connection.
+          </span>
         </p>
-        <button 
+        <button
           onClick={handleRetry}
           className="px-8 py-3 bg-gradient-to-r from-cyan-600 to-pink-600 rounded-full font-bold hover:opacity-90 transition-all shadow-lg shadow-pink-900/20"
         >
@@ -111,7 +105,7 @@ export default function App() {
         <div className="flex-1 overflow-hidden relative z-0">
           <Routes>
             <Route path="/sql-setup" element={<SqlSetup />} />
-            
+
             {session ? (
               <>
                 <Route path="/" element={<Home />} />
@@ -133,6 +127,7 @@ export default function App() {
     </Router>
   );
 }
+
 
 
 
