@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { supabase } from './supabaseClient';
-import { AuthScreen } from './components/AuthScreen';
+import { AuthScreen } from './components/AuthScreen.tsx';
 import { BottomNav } from './components/BottomNav';
 import { Home } from './pages/Home';
 import { Discover } from './pages/Discover';
